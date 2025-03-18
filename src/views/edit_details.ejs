@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .task-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header with Gradient */
+        .task-header {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-header h5 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .task-owner {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .owner-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .task-body {
+            padding: 20px;
+        }
+
+        .task-body .row {
+            margin-bottom: 10px;
+        }
+
+        .task-body strong {
+            color: #4e54c8;
+        }
+
+        /* Comment Section */
+        .task-comment-section {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+        }
+
+        .comment-input {
+            flex: 1;
+            border: none;
+            background: #fff;
+            padding: 8px 10px;
+            border-radius: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .task-footer {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: right;
+            border-top: 1px solid #ddd;
+        }
+
+        .btn-close-modal {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-close-modal:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="task-container">
+            <!-- Header -->
+            <div class="task-header">
+                <h5><i class="fas fa-tasks"></i> Task 2</h5>
+                <div>
+                    <strong>Due Date:</strong>
+                    <input type="date" class="form-control"
+                        value="<%= task.task_due_date ? task.task_due_date.toISOString().split('T')[0] : '' %>"
+                        name="task_due_date" style="display:inline; width:auto;" disabled>
+                    <strong>Status:</strong>
+                    <select class="form-select" name="task_status" style="display:inline; width:auto;" disabled>
+                        <option value="Pending" <%=task.task_status==='Pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="In Progress" <%=task.task_status==='In Progress' ? 'selected' : '' %>>In Progress
+                        </option>
+                        <option value="Completed" <%=task.task_status==='Completed' ? 'selected' : '' %>>Completed
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Owner Info -->
+            <div class="task-owner">
+                <img src="<%=task.owner_image %>" class="owner-img" alt="Owner">
+                <div>
+                    <strong>
+                        <%=task.task_owner_name %>
+                    </strong><br>
+                    <small class="text-muted">Task Owner</small>
+                </div>
+            </div>
+
+            <!-- Task Details -->
+            <form action="/edited_task_details/<%=task.task_id %>" method="post">
+                <div class="task-body">
+                    <div class="row">
+                        <div class="col-md-6"><strong>Task Name:</strong></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="task_task_name"
+                                value="<%=task.task_task_name %>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Description:</strong></div>
+                        <div class="col-md-6">
+                            <textarea class="form-control"
+                                name="task_description"><%=task.task_description %></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Start Date:</strong></div>
+                        <div class="col-md-6">
+                            <input type="date" class="form-control" name="task_start_date"
+                                value="<%= task.task_start_date ? task.task_start_date.toISOString().split('T')[0] : '' %>"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Due Date:</strong></div>
+                        <div class="col-md-6">
+                            <input type="date" class="form-control" name="task_due_date"
+                                value="<%= task.task_due_date ? task.task_due_date.toISOString().split('T')[0] : '' %>">
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6"><strong>Priority:</strong></div>
+                        <div class="col-md-6">
+                            <select class="form-select" name="task_priority">
+                                <option value="Low" <%=task.task_priority==='Low' ? 'selected' : '' %>>Low</option>
+                                <option value="Medium" <%=task.task_priority==='Medium' ? 'selected' : '' %>>Medium
+                                </option>
+                                <option value="High" <%=task.task_priority==='High' ? 'selected' : '' %>>High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Status:</strong></div>
+                        <div class="col-md-6">
+                            <select class="form-select" name="task_status">
+                                <option value="Pending" <%=task.task_status==='Pending' ? 'selected' : '' %>>Pending
+                                </option>
+                                <option value="In Progress" <%=task.task_status==='In Progress' ? 'selected' : '' %>>In
+                                    Progress</option>
+                                <option value="Completed" <%=task.task_status==='Completed' ? 'selected' : '' %>
+                                    >Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment Section -->
+                <div class="task-comment-section">
+                    <img src="<%=task.owner_image %>" class="owner-img" alt="User ">
+                    <input type="text" class="comment-input" placeholder="Write a comment...">
+                </div>
+
+                <!-- Footer -->
+                <div class="task-footer">
+                    <button type="submit" class="btn-close-modal btn btn-success">Save</button>
+                    <a href="/"><button type="button" class="btn-close-modal btn btn-secondary">Close</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
