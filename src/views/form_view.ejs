@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+
+    <style>
+        .task-wrapper {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-white shadow-sm px-3">
+        <a class="navbar-brand" href="#">Form View</a>
+    </nav>
+
+    <div class="container-fluid mt-3">
+        <!-- Task Tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link" href="#">My Tasks</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Track Tasks</a></li>
+            <li class="nav-item"><a class="nav-link" href="/">All Tasks</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/form-view">Form View</a></li>
+            <div class="dropdown ms-auto">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-gear"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/add_owner">Add Owner</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+        </ul>
+
+        <!-- Task Section -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-10 col-lg-12">
+
+                <!-- Task Summary -->
+                <div class="d-flex gap-2 mb-3">
+                    <button class="btn btn-outline-primary">
+                        Total <span class="badge bg-primary">
+                            <%= totalTasks %>
+                        </span>
+                    </button>
+                    <button class="btn btn-outline-info">
+                        Open <span class="badge bg-info">
+                            <%= openTasks %>
+                        </span>
+                    </button>
+                    <button class="btn btn-outline-success">
+                        Completed <span class="badge bg-success">
+                            <%= completedTasks %>
+                        </span>
+                    </button>
+                    <!-- <a class="ms-auto" href="/add_task"><button class="btn btn-primary">Add Task</button></a> -->
+                </div>
+
+                <!-- Task Table -->
+                <div class="task-wrapper">
+                    <h5>All Tasks</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Task ID</th>
+                                    <th>Task Name</th>
+                                    <th>Description</th>
+                                    <th>Start Date</th>
+                                    <th>Due Date</th>
+                                    <th>Reminder</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Owner Name</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (tasks && tasks.length> 0) { %>
+                                    <% tasks.forEach(task=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= task.task_id %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_task_name %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_description %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_start_date ? formatDate(task.task_start_date) : 'N/A' %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_due_date ? formatDate(task.task_due_date) : 'N/A' %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_reminder ? new
+                                                    Date(task.task_reminder).toLocaleDateString('en-GB', {
+                                                    day: '2-digit' , month: 'short' , year: 'numeric'
+                                                    }).replace(/\s/g, '-' ) + ' ' + new
+                                                    Date(task.task_reminder).toLocaleTimeString('en-GB', {
+                                                    hour: '2-digit' , minute: '2-digit' , hour12: false }) : 'N/A' %>
+                                            </td>
+
+                                            <td>
+                                                <%= task.task_priority %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_status %>
+                                            </td>
+                                            <td>
+                                                <%= task.task_owner_name %>
+                                            </td>
+
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="10" class="text-center">No tasks available</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

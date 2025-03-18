@@ -131,7 +131,7 @@
 
             <!-- Owner Info -->
             <div class="task-owner">
-                <img src="<%=task.owner_image %>" class="owner-img" alt="Owner">
+                <img src="/uploads/<%=task.owner_image %>" class="owner-img" alt="Owner">
                 <div>
                     <strong>
                         <%=task.task_owner_name %>
@@ -165,6 +165,8 @@
                                 disabled>
                         </div>
                     </div>
+
+
                     <div class="row">
                         <div class="col-md-6"><strong>Due Date:</strong></div>
                         <div class="col-md-6">
@@ -172,6 +174,16 @@
                                 value="<%= task.task_due_date ? task.task_due_date.toISOString().split('T')[0] : '' %>">
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6"><strong>Task Reminder:</strong></div>
+                        <div class="col-md-6">
+                            <input type="datetime-local" class="form-control" name="task_reminder"
+                                value="<%= task.task_reminder ? task.task_reminder.toISOString().slice(0, 16) : '' %>">
+                        </div>
+                    </div>
+
+
 
 
                     <div class="row">
@@ -202,7 +214,7 @@
 
                 <!-- Comment Section -->
                 <div class="task-comment-section">
-                    <img src="<%=task.owner_image %>" class="owner-img" alt="User ">
+                    <img src="/uploads/<%=task.owner_image %>" class="owner-img" alt="User ">
                     <input type="text" class="comment-input" placeholder="Write a comment...">
                 </div>
 

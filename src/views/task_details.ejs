@@ -124,7 +124,7 @@
 
             <!-- Owner Info -->
             <div class="task-owner">
-                <img src="<%=task.owner_image %>" class="owner-img" alt="Owner">
+                <img src="/uploads/<%=task.owner_image %>" class="owner-img" alt="Owner">
                 <div>
                     <strong>
                         <%=task.task_owner_name %>
@@ -160,6 +160,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-6"><strong>Task Reminder:</strong></div>
+                    <div class="col-md-6">
+                        <%=formatDateTime(task.task_reminder) %>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6"><strong>Assigned To:</strong></div>
                     <div class="col-md-6">
                         <%=task.task_owner_name %>
@@ -181,7 +187,7 @@
 
             <!-- Comment Section -->
             <div class="task-comment-section">
-                <img src="<%=task.owner_image %>" class="owner-img" alt="User">
+                <img src="/uploads/<%=task.owner_image %>" class="owner-img" alt="User">
                 <input type="text" class="comment-input" placeholder="Write a comment...">
             </div>
 

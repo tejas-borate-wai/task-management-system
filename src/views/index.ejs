@@ -59,8 +59,8 @@
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link" href="#">My Tasks</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Track Tasks</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">All Tasks</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Form View</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#">All Tasks</a></li>
+            <li class="nav-item"><a class="nav-link" href="/form-view">Form View</a></li>
             <div class="dropdown ms-auto">
                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-gear"></i>
@@ -74,7 +74,7 @@
 
         <!-- Task Section -->
         <div class="row justify-content-center mt-3">
-            <div class="col-md-10 col-lg-11">
+            <div class="col-md-10 col-lg-12">
                 <div class="d-flex gap-2">
                     <button class="btn btn-outline-primary">
                         Total <span class="badge bg-primary">
@@ -103,7 +103,8 @@
                             <div class="task-item d-flex align-items-center justify-content-between p-2 border-bottom">
                                 <input type="checkbox" class="me-2" />
 
-                                <img src="<%= task.owner_image %>" class="task-icon rounded-circle me-3" alt="User" />
+                                <img src="uploads/<%= task.owner_image %>" class="task-icon rounded-circle me-3"
+                                    alt="User" />
 
                                 <div class="flex-grow-1">
                                     <strong class="d-block">Task Name</strong>
@@ -113,7 +114,7 @@
                                     <br />
                                     <small class="text-muted">
                                         <%= task.owner_id %> - <%= task.owner_name %> • <%= task.task_start_date ?
-                                                    task.task_start_date.toISOString().split('T')[0] : 'N/A' %>
+                                                    task.task_start_date : 'N/A' %>
                                     </small>
                                 </div>
 
